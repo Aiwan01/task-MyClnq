@@ -16,7 +16,7 @@ class ItemModel {
   async findAll() {
     const data = await fs.readFile(dataFile, 'utf8');
     const result = JSON.parse(data);
-    return result
+    return result;
   }
 
   async create(itemData) {

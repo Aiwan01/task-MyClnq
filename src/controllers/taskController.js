@@ -18,23 +18,23 @@ class ItemController {
         return res.status(404).json({ message: 'Please provide valid id' });
       }
       const itemList = await ItemModel.findById(id);
+      
       if(itemList == 404) {
         return res.status(404).json({ data : itemList, message: 'No record found.' });
       }
-      return res.status(201).json({data : itemList, message: 'Here`s your data'});
+       return res.status(201).json({data : itemList, message: 'Here`s your data'});
     } catch (error) {
-      return res.status(500).json({data : {}, error: 'Error reading item' });
+       res.status(500).json({data : {}, error: 'Error reading item' });
     }
   }
 
   async getAllItems(req, res) {
     try {
       const items = await ItemModel.findAll();
-      console.log(items)
       if(!items.length) {
         return res.status(404).json({ data :res.json(items), message: 'No data found' });
       }
-      return res.status(200).json({ data :res.json(items), message: 'All items list' });
+      return res.status(200).json({ data :items, message: 'All items list' });
     } catch (error) {
       return res.status(500).json({ data : {}, message: 'Error reading items' });
     }

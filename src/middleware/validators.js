@@ -1,18 +1,16 @@
-const { body, validationResult } = require('express-validator');
 
- const validateTask = [
-  body('title').trim().notEmpty().withMessage('Title is required'),
-  body('description').trim().optional(),
-  body('completed').isBoolean().optional(),
-  (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-    next();
+function validateInput(req, res, next) {
+  const { title, description, status } = req.body;
+
+  if (!title || !description || !status) {
+      return res.status(400).json({ error: 'Title, description, and status are required' });
   }
-];
 
-module.exports = {
-  validateTask
-};
+  if (status !== 'completed' && status !== 'pending') {
+      return res.status(400).json({ error: 'Status must be either "complete" or "pending"' });
+  }
+
+  next();
+}
+
+module.exports = validateInput;
